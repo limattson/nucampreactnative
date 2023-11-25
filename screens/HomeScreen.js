@@ -5,7 +5,7 @@ import { CAMPSITES } from '../shared/campsites';
 import { PROMOTIONS } from '../shared/promotions';
 import { PARTNERS } from '../shared/partners';
 
-const featuredItem = ({ item }) => {
+const FeaturedItem = ({ item }) => {
     if (item) {
         return (
             <Card containerStyle={{ padding: 0}}>
