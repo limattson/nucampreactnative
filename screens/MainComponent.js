@@ -17,24 +17,13 @@ import { fetchPromotions } from '../features/promotions/promotionsSlice';
 import { fetchComments } from '../features/comments/commentsSlice';
 import ReservationScreen from './ReservationScreen';
 
-
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
-const dispatch = useDispatch();
-
 
 const screenOptions = {
     headerTintColor: '#fff',
     headerStyle: { backgroundColor: '#563700' }
 }
-
-useEffect(() => {
-    dispatch(fetchCampsites());
-    dispatch(fetchPromotions());
-    dispatch(fetchPartners());
-    dispatch(fetchComments());
-}, [dispatch]);
-
 
 const HomeNavigator = () => {
     return (
@@ -172,6 +161,14 @@ const CustomDrawerContent = (props) => (
 
 //Constants.statusBarHeight
 const Main = () => {
+    const dispatch=useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchCampsites());
+        dispatch(fetchPartners());
+        dispatch(fetchPromotions());
+        dispatch(fetchComments());
+    }, [dispatch]);
 
     return (
         <View style={{
@@ -217,7 +214,7 @@ const Main = () => {
                 />
                    <Drawer.Screen
                     name='Reserve Campsite'
-                    component={ReservationNavigatorNavigator}
+                    component={ReservationNavigator}
                     options={{
                         title: 'Reserve Campsite',
                         drawerIcon: ({ color }) => (

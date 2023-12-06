@@ -9,7 +9,7 @@ import { baseUrl } from '../shared/baseURL';
 import Loading from '../components/LoadingComponent';
 
 
-const FeaturedItem = ({ props }) => {
+const FeaturedItem = (props) => {
     const { item } = props;
 
     if (props.isLoading) {
