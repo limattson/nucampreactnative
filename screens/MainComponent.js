@@ -16,6 +16,7 @@ import { fetchCampsites } from '../features/campsites/campsitesSlice';
 import { fetchPromotions } from '../features/promotions/promotionsSlice';
 import { fetchComments } from '../features/comments/commentsSlice';
 import ReservationScreen from './ReservationScreen';
+import FavoriteScreen from './FavoriteScreens';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -111,6 +112,29 @@ const ReservationNavigator = () => {
         </Stack.Navigator>
     );
 };
+
+const FavoriteNavigator = () => {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name='Favorites'
+                component={FavoriteScreen}
+                options={({ navigation }) => ({
+                    title: 'Favorite Campsites',
+                    headerLeft: () => (
+                        <Icon
+                            name='heart'
+                            type='font-awesome'
+                            iconStyle={styles.stackIcon}
+                            onPress={() => navigation.toggleDrawer()}
+                        />
+                    )
+                })}
+            ></Stack.Screen>
+        </Stack.Navigator>
+    );
+};
+
 
 const DirectoryNavigator = () => {
 
@@ -252,6 +276,22 @@ const Main = () => {
                         drawerIcon: ({ color }) => (
                             <Icon
                                 name='address-card'
+                                type='font-awesome'
+                                size={24}
+                                iconStyle={{ width: 24 }}
+                                color={color}
+                            />
+                        )
+                    }}
+                />
+                  <Drawer.Screen
+                    name='Favorites'
+                    component={FavoriteNavigator}
+                    options={{
+                        title: 'May Favorites',
+                        drawerIcon: ({ color }) => (
+                            <Icon
+                                name='heart'
                                 type='font-awesome'
                                 size={24}
                                 iconStyle={{ width: 24 }}
