@@ -3,14 +3,22 @@ import { Card } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { baseUrl } from '../../shared/baseURL';
 import * as Animatable from 'react-native-animatable';
+import { useRef } from 'react';
 
 //check to make sure there is no props in other lessons!
 const RenderCampsite = ({ campsite, isFavorite, markFavorite, onShowModal }) => {
+
+    const view = useRef();
 
     const isLeftSwipe = ({ dx }) => dx < -200;
 
     const panResponder =PanResponder.create({
         onStartShouldSetPanResponder: () => true,
+        onPanResponderGrant: () => {
+            view.current
+                .rubberBand(1000)
+                .then((endState) => console.log(endState.finished ? 'finished' : 'canceled'));
+        },
         onPanResponderEnd: (e, gestureState) => {
             console.log('pan responder end', gestureState);
             if(isLeftSwipe(gestureState)) {
@@ -41,6 +49,7 @@ const RenderCampsite = ({ campsite, isFavorite, markFavorite, onShowModal }) => 
                 animation='fadeInDownBig'
                 duration={2000}
                 delay={1000}
+                ref={view}
                 {...panResponder.panHandlers}
             >
                 <Card containerStyle={styles.cardContainer}>
