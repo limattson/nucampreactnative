@@ -185,7 +185,7 @@ const CustomDrawerContent = (props) => (
 
 //Constants.statusBarHeight
 const Main = () => {
-    const dispatch=useDispatch();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(fetchCampsites());
@@ -236,7 +236,7 @@ const Main = () => {
                         )
                     }}
                 />
-                   <Drawer.Screen
+                <Drawer.Screen
                     name='Reserve Campsite'
                     component={ReservationNavigator}
                     options={{
@@ -284,11 +284,11 @@ const Main = () => {
                         )
                     }}
                 />
-                  <Drawer.Screen
+                <Drawer.Screen
                     name='Favorites'
                     component={FavoriteNavigator}
                     options={{
-                        title: 'May Favorites',
+                        title: 'My Favorites',
                         drawerIcon: ({ color }) => (
                             <Icon
                                 name='heart'
@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     drawerImage: {
-        margin:10,
+        margin: 10,
         height: 60,
         width: 60
     },

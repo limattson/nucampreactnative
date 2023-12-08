@@ -5,10 +5,11 @@ import Loading from '../components/LoadingComponent';
 import { baseUrl } from "../shared/baseURL";
 import { SwipeRow } from "react-native-swipe-list-view";
 import { toggleFavorite } from '../features/favorites/favoritesSlice';
+import * as Animatable from 'react-native-animatable';
 
 
 const FavoriteScreen = ({ navigation }) => {
-    const { camsitesArray, isLoading, errMsg } = useSelector((state) => state.campsites);
+    const { campsitesArray, isLoading, errMess } = useSelector((state) => state.campsites);
     const favorites = useSelector((state) => state.favorites);
     const dispatch = useDispatch();
 
@@ -47,7 +48,7 @@ const FavoriteScreen = ({ navigation }) => {
                 >
                     <Avatar rounded source={{ uri: baseUrl + campsite.image }} />
                     <ListItem.Content>
-                        <ListItemTitle>{campsite.name}</ListItemTitle>
+                        <ListItem.Title>{campsite.name}</ListItem.Title>
                         <ListItem.Subtitle>{campsite.description}</ListItem.Subtitle>
                     </ListItem.Content>
                 </ListItem>
@@ -63,16 +64,18 @@ const FavoriteScreen = ({ navigation }) => {
     if (errMess) {
         return (
             <View>
-                <Text>{errMss}</Text>
+                <Text>{errMess}</Text>
             </View>
         );
     }
     return (
+        <Animatable.View animation='fadeInRightBig' duration={2000}>
         <FlatList
             data={campsitesArray.filter((campsite) => favorites.includes(campsite.id))}
             renderItem={renderFavoriteItem}
             keyExtractor={(item) => item.id.toString()}
         />
+        </Animatable.View>
     )
 };
 

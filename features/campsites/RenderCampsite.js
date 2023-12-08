@@ -3,47 +3,54 @@ import { Card } from 'react-native-elements';
 import { StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { baseUrl } from '../../shared/baseURL';
+import * as Animatable from 'react-native-animatable';
 
 //check to make sure there is no props in other lessons!
-const RenderCampsite = ({campsite, isFavorite, markFavorite, onShowModal}) => {
+const RenderCampsite = ({ campsite, isFavorite, markFavorite, onShowModal }) => {
 
     if (campsite) {
         return (
-            <Card containerStyle={styles.cardContainer}>
-                <Card.Image source={{ uri: baseUrl + campsite.image }}>
-                    <View style={{ justifyContent: 'center', flex: 1 }}>
-                        <Text
-                            style={styles.cardText}
-                        >
-                            {campsite.name}
-                        </Text>
+            <Animatable.View
+                animation='fadeInDownBig'
+                duration={2000}
+                delay={1000}
+            >
+                <Card containerStyle={styles.cardContainer}>
+                    <Card.Image source={{ uri: baseUrl + campsite.image }}>
+                        <View style={{ justifyContent: 'center', flex: 1 }}>
+                            <Text
+                                style={styles.cardText}
+                            >
+                                {campsite.name}
+                            </Text>
+                        </View>
+                    </Card.Image>
+                    <Text style={{ margin: 20 }}>{campsite.description}</Text>
+                    <View style={styles.cardRow}>
+                        <Icon
+                            name={isFavorite ? 'heart' : 'heart-o'}
+                            type='font-awesome'
+                            color='#f50'
+                            raised
+                            reverse
+                            onPress={() =>
+                                isFavorite
+                                    ? console.log('Already set as favorite')
+                                    : markFavorite()
+                            }
+                        />
+                        <Icon
+                            name='pencil'
+                            type='font-awesome'
+                            color='#5637DD'
+                            raised
+                            reverse
+                            onPress={() =>
+                                onShowModal()}
+                        />
                     </View>
-                </Card.Image>
-                <Text style={{ margin: 20 }}>{campsite.description}</Text>
-                <View style={styles.cardRow}>
-                    <Icon
-                        name={isFavorite ? 'heart' : 'heart-o'}
-                        type='font-awesome'
-                        color='#f50'
-                        raised
-                        reverse
-                        onPress={() =>
-                            isFavorite
-                                ? console.log('Already set as favorite')
-                                : markFavorite()
-                        }
-                    />
-                    <Icon
-                        name='pencil'
-                        type='font-awesome'
-                        color='#5637DD'
-                        raised
-                        reverse
-                        onPress={() =>
-                            onShowModal()}
-                    />
-                </View>
-            </Card>
+                </Card>
+            </Animatable.View>
         );
     }
 
