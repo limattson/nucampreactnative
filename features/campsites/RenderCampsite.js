@@ -11,8 +11,9 @@ const RenderCampsite = ({ campsite, isFavorite, markFavorite, onShowModal }) => 
     const view = useRef();
 
     const isLeftSwipe = ({ dx }) => dx < -200;
+    const isRightSwipe = ({ dx }) => dx > 200;
 
-    const panResponder =PanResponder.create({
+    const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: () => true,
         onPanResponderGrant: () => {
             view.current
@@ -40,9 +41,12 @@ const RenderCampsite = ({ campsite, isFavorite, markFavorite, onShowModal }) => 
                     ],
                     {cancelable: false}
                 )
+            } else if (isRightSwipe(gestureState)) {
+                onShowModal();
             }
         }
-    })
+    });
+
     if (campsite) {
         return (
             <Animatable.View
