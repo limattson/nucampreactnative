@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, PanResponder, Alert } from 'react-native';
+import { Text, View, StyleSheet, PanResponder, Alert, Share } from 'react-native';
 import { Card } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { baseUrl } from '../../shared/baseURL';
@@ -22,7 +22,7 @@ const RenderCampsite = ({ campsite, isFavorite, markFavorite, onShowModal }) => 
         },
         onPanResponderEnd: (e, gestureState) => {
             console.log('pan responder end', gestureState);
-            if(isLeftSwipe(gestureState)) {
+            if (isLeftSwipe(gestureState)) {
                 Alert.alert(
                     'Add Favorite',
                     'Are you sure you wish to add ' + campsite.name + 'to favorites?',
@@ -35,17 +35,29 @@ const RenderCampsite = ({ campsite, isFavorite, markFavorite, onShowModal }) => 
                         {
                             text: 'OK',
                             onPress: () => isFavorite
-                            ? console.log('Already set to favorite')
-                            : markFavorite()
+                                ? console.log('Already set to favorite')
+                                : markFavorite()
                         }
                     ],
-                    {cancelable: false}
+                    { cancelable: false }
                 )
             } else if (isRightSwipe(gestureState)) {
                 onShowModal();
             }
         }
     });
+
+    const shareCampsite = (title, message, url) => {
+        Share.share({
+            title,
+            message: `${title}: ${message} ${url}`,
+            url
+        },
+            {
+                dialogTitle: 'Share ' + title
+            }
+        )
+    }
 
     if (campsite) {
         return (
@@ -88,6 +100,20 @@ const RenderCampsite = ({ campsite, isFavorite, markFavorite, onShowModal }) => 
                             reverse
                             onPress={() =>
                                 onShowModal()}
+                        />
+                        <Icon
+                            name='share'
+                            type='font-awesome'
+                            color='#5637DD'
+                            raised
+                            reverse
+                            onPress={() =>
+                                shareCampsite(
+                                    campsite.name,
+                                    campsite.description,
+                                    baseUrl + campsite.image
+                                )
+                            }
                         />
                     </View>
                 </Card>
