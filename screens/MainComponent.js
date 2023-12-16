@@ -19,8 +19,7 @@ import ReservationScreen from './ReservationScreen';
 import FavoriteScreen from './FavoriteScreens';
 import LoginScreen from './LoginScreen';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
-import logo from '../assets/images/logo.png';
-
+import NetInfo from '@react-native-community/netinfo'
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -226,20 +225,26 @@ const Main = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        NetInfo.fetch().then((connectionInfo) => {
-            Platform.OS === 'ios'
-            ? Alert.alert('Initial Network Conectivity Type: ', connectionInfo.type)
-            : ToastAndroid.show('Initital Network Connectivity Type: ' + connectionInfo.type, ToastAndroid.LONG);
-        });
-        const unsubscribeNetInfo = NetInfo.addEventListener((connectionInfo) => {
-            handleConnectivityChange(connectionInfo);
-            }
-        );
-        return unsubscribeNetInfo;
+        showNetInfo();
     }, []);
 
+    const showNetInfo = async () => {
+        const connectionInfo = await NetInfo.fetch()
+
+        Platform.OS === 'ios'
+            ? Alert.alert('Initial Network Conectivity Type: ', connectionInfo.type)
+            : ToastAndroid.show('Initial Network Connectivity Type: ' + connectionInfo.type, ToastAndroid.LONG);
+
+
+        const unsubscribeNetInfo = NetInfo.addEventListener((connectionInfo) => {
+            handleConnectivityChange(connectionInfo);
+        });
+
+        return unsubscribeNetInfo;
+    }
+
     const handleConnectivityChange = (connectionInfo) => {
-        let connectionMsg = 'Tou are connected to an active network';
+        let connectionMsg = 'You are connected to an active network';
 
         switch (connectionInfo.type) {
             case 'none':
@@ -256,8 +261,8 @@ const Main = () => {
                 break;
         }
         Platform.OS === 'ios'
-        ? Alert.alert('Connection change: ', connectionMsg)
-        : ToastAndroid.show(connectionMSg, ToastAndroid.LONG);
+            ? Alert.alert('Connection change: ', connectionMsg)
+            : ToastAndroid.show(connectionMsg, ToastAndroid.LONG);
     }
 
     return (
